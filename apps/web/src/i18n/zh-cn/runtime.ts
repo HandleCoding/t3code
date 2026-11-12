@@ -1,5 +1,3 @@
-import { getClientSettings } from "../../hooks/useSettings";
-import { getI18nSnapshot } from "../runtime";
 import catalogJson from "./catalog.json";
 import {
   PROTECTED_EXACT_TOKENS,
@@ -9,19 +7,20 @@ import {
 
 const STATIC_CATALOG: Readonly<Record<string, string>> = catalogJson;
 
+let localeResolver: (() => boolean) | undefined;
+
+export function setZhLocaleResolver(resolver: () => boolean): void {
+  localeResolver = resolver;
+}
+
 /**
  * In the Chinese localized fork, `"system"` defaults to Chinese (`zh`) unless the user
  * explicitly picks another language (e.g. `"en"`) in Settings -> General -> Language.
  */
-export function isZhLocaleActive(): boolean {
+function isZhLocaleActive(): boolean {
   try {
-    const { locale } = getI18nSnapshot();
-    if (locale.startsWith("zh")) return true;
-    const configured = getClientSettings().language;
-    if (configured === "system" || !configured) {
-      return true;
-    }
-    return configured.startsWith("zh");
+    // UI modules translate constants during evaluation, before settings are initialized.
+    return localeResolver?.() ?? true;
   } catch {
     return true;
   }
