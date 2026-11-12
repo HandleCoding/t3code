@@ -1,0 +1,594 @@
+[
+  {
+    "english": "Could not read T3 Connect link state.",
+    "file": "apps/web/src/cloud/cloudLinkState.ts"
+  },
+  {
+    "english": "Could not update T3 Connect access.",
+    "file": "apps/web/src/cloud/useCloudLinkController.ts"
+  },
+  {
+    "english": "Could not start the clone.",
+    "file": "apps/web/src/components/AddProjectToMachineDialog.tsx"
+  },
+  {
+    "english": "Insight",
+    "file": "apps/web/src/components/ChatMarkdown.tsx"
+  },
+  {
+    "english": "The file could not be loaded. It may have been moved or deleted.",
+    "file": "apps/web/src/components/ChatMarkdown.tsx"
+  },
+  {
+    "english": "Try replying after the connection or pending input is resolved.",
+    "file": "apps/web/src/components/ChatView.tsx"
+  },
+  {
+    "english": "Could not download ",
+    "file": "apps/web/src/components/ChatView.tsx"
+  },
+  {
+    "english": "Failed to interrupt the current turn.",
+    "file": "apps/web/src/components/ChatView.tsx"
+  },
+  {
+    "english": "Find on page in browser",
+    "file": "apps/web/src/components/CommandPalette.tsx"
+  },
+  {
+    "english": "Choose a folder in the environment the repository is cloned into.",
+    "file": "apps/web/src/components/CommandPalette.tsx"
+  },
+  {
+    "english": "Replay failed",
+    "file": "apps/web/src/components/DevReplayHost.tsx"
+  },
+  {
+    "english": "Failed to import action.",
+    "file": "apps/web/src/components/settings/ProjectActionsSettings.tsx"
+  },
+  {
+    "english": "Provider update failed.",
+    "file": "apps/web/src/components/ProviderUpdateLaunchNotification.logic.ts"
+  },
+  {
+    "english": "Refresh failed.",
+    "file": "apps/web/src/components/ProviderUpdatesAction.tsx"
+  },
+  {
+    "english": "Could not check provider updates",
+    "file": "apps/web/src/components/ProviderUpdatesAction.tsx"
+  },
+  {
+    "english": "Server update failed.",
+    "file": "apps/web/src/components/ServerUpdateAction.tsx"
+  },
+  {
+    "english": "Unable to open path",
+    "file": "apps/web/src/components/ThreadTerminalDrawer.tsx"
+  },
+  {
+    "english": "Terminal write failed",
+    "file": "apps/web/src/components/ThreadTerminalDrawer.tsx"
+  },
+  {
+    "english": "Unable to initialize libghostty-vt",
+    "file": "apps/web/src/components/ThreadTerminalDrawer.tsx"
+  },
+  {
+    "english": "Could not reach this environment. Try again.",
+    "file": "apps/web/src/components/auth/ApproveAgentSurface.tsx"
+  },
+  {
+    "english": "This sign-in link is incomplete",
+    "file": "apps/web/src/components/auth/ApproveAgentSurface.tsx"
+  },
+  {
+    "english": "Open this page in its own window",
+    "file": "apps/web/src/components/auth/ApproveAgentSurface.tsx"
+  },
+  {
+    "english": "For your safety, agent sign-ins cannot be approved inside another site.",
+    "file": "apps/web/src/components/auth/ApproveAgentSurface.tsx"
+  },
+  {
+    "english": "Connecting to T3 Connect",
+    "file": "apps/web/src/components/auth/ApproveAgentSurface.tsx"
+  },
+  {
+    "english": "One moment while your account loads.",
+    "file": "apps/web/src/components/auth/ApproveAgentSurface.tsx"
+  },
+  {
+    "english": "Sign in to approve",
+    "file": "apps/web/src/components/auth/ApproveAgentSurface.tsx"
+  },
+  {
+    "english": "Sign in to T3 Connect with the account this environment is linked to.",
+    "file": "apps/web/src/components/auth/ApproveAgentSurface.tsx"
+  },
+  {
+    "english": "Terminal output can't be added to a question answer.",
+    "file": "apps/web/src/components/chat/ChatComposer.tsx"
+  },
+  {
+    "english": "Answer or dismiss the question first, then add it to chat.",
+    "file": "apps/web/src/components/chat/ChatComposer.tsx"
+  },
+  {
+    "english": "Failed to submit approval decision.",
+    "file": "apps/web/src/components/chat/usePendingThreadRequests.ts"
+  },
+  {
+    "english": "Image attachment",
+    "file": "apps/web/src/components/chat/ComposerAttachmentStrip.tsx"
+  },
+  {
+    "english": "Cancel voice input",
+    "file": "apps/web/src/components/chat/ComposerSpeechButton.tsx"
+  },
+  {
+    "english": "Finish voice input",
+    "file": "apps/web/src/components/chat/ComposerSpeechButton.tsx"
+  },
+  {
+    "english": "The diagram could not be rendered.",
+    "file": "apps/web/src/components/chat/MermaidDiagram.tsx"
+  },
+  {
+    "english": "Search failed",
+    "file": "apps/web/src/components/chat/ThreadFindBar.tsx"
+  },
+  {
+    "english": "Reply to this response",
+    "file": "apps/web/src/components/chat/TimelineAssistantRows.tsx"
+  },
+  {
+    "english": "Open voice settings",
+    "file": "apps/web/src/components/chat/VoiceInputErrorPill.tsx"
+  },
+  {
+    "english": "Retry transcription",
+    "file": "apps/web/src/components/chat/VoiceInputErrorPill.tsx"
+  },
+  {
+    "english": "Click to zoom in or return to fit. Pinch or Ctrl+scroll to zoom, scroll or drag to pan. Use Enter to toggle zoom, plus or minus to zoom, and 0 to fit.",
+    "file": "apps/web/src/components/chat/ZoomableImage.tsx"
+  },
+  {
+    "english": "Failed to revert thread state.",
+    "file": "apps/web/src/components/chat/chatViewSend.ts"
+  },
+  {
+    "english": "true",
+    "file": "apps/web/src/components/guest/GuestPage.tsx"
+  },
+  {
+    "english": "Could not resume thread.",
+    "file": "apps/web/src/components/chat/useComposerResume.ts"
+  },
+  {
+    "english": "Failed to send messages.",
+    "file": "apps/web/src/components/chat/useMultipleModelSend.ts"
+  },
+  {
+    "english": "Failed to submit user input.",
+    "file": "apps/web/src/components/chat/usePendingThreadRequests.ts"
+  },
+  {
+    "english": "Failed to dismiss the question.",
+    "file": "apps/web/src/components/chat/usePendingThreadRequests.ts"
+  },
+  {
+    "english": "Could not save the edited queued message.",
+    "file": "apps/web/src/components/chat/useQueuedRunEdit.ts"
+  },
+  {
+    "english": "Failed to stop background work.",
+    "file": "apps/web/src/components/chat/useThreadLifecycle.tsx"
+  },
+  {
+    "english": "Failed to fork this response.",
+    "file": "apps/web/src/components/chat/useTimelineRewind.ts"
+  },
+  {
+    "english": "Could not deregister the server.",
+    "file": "apps/web/src/components/clerk/T3ConnectUserProfilePage.tsx"
+  },
+  {
+    "english": "Could not connect the T3 Connect environment.",
+    "file": "apps/web/src/components/cloud/CloudEnvironmentConnectList.tsx"
+  },
+  {
+    "english": "SSH verification prompt failed.",
+    "file": "apps/web/src/components/desktop/SshPasswordPromptDialog.tsx"
+  },
+  {
+    "english": "Could not change fold posture.",
+    "file": "apps/web/src/components/device/DeviceAndroidFoldControls.tsx"
+  },
+  {
+    "english": "iPhone Duo stands",
+    "file": "apps/web/src/components/device/DeviceDuoControls.tsx"
+  },
+  {
+    "english": "Fold shape",
+    "file": "apps/web/src/components/device/DeviceDuoControls.tsx"
+  },
+  {
+    "english": "Screenshot capture failed. Try again.",
+    "file": "apps/web/src/components/device/DeviceWorkspace.tsx"
+  },
+  {
+    "english": "Could not load this file.",
+    "file": "apps/web/src/components/files/AttachmentFilePreview.tsx"
+  },
+  {
+    "english": "File contents",
+    "file": "apps/web/src/components/files/FilePreviewPanel.tsx"
+  },
+  {
+    "english": "The font is damaged or unsupported.",
+    "file": "apps/web/src/components/files/FontViewer.tsx"
+  },
+  {
+    "english": "Could not render this Office document.",
+    "file": "apps/web/src/components/files/OpenXmlOfficeViewer.tsx"
+  },
+  {
+    "english": "This PDF page could not render.",
+    "file": "apps/web/src/components/files/PdfViewer.tsx"
+  },
+  {
+    "english": "Unable to open PDF.",
+    "file": "apps/web/src/components/files/PdfViewer.tsx"
+  },
+  {
+    "english": "Could not search this PDF.",
+    "file": "apps/web/src/components/files/PdfViewer.tsx"
+  },
+  {
+    "english": "Could not decode this image.",
+    "file": "apps/web/src/components/files/imageDecode.worker.ts"
+  },
+  {
+    "english": "Workspace query failed.",
+    "file": "apps/web/src/components/files/projectFilesQueryState.ts"
+  },
+  {
+    "english": "Unable to load folder.",
+    "file": "apps/web/src/components/files/useDirectoryEntries.ts"
+  },
+  {
+    "english": "Find in page",
+    "file": "apps/web/src/components/preview/PreviewFindBar.tsx"
+  },
+  {
+    "english": "Find on page isn't available for this page",
+    "file": "apps/web/src/components/preview/PreviewView.tsx"
+  },
+  {
+    "english": "Failed to save action.",
+    "file": "apps/web/src/components/projectScriptEditor.tsx"
+  },
+  {
+    "english": "Could not link the pull request.",
+    "file": "apps/web/src/components/pullRequest/LinkPullRequestDialog.tsx"
+  },
+  {
+    "english": "The conversation could not be updated",
+    "file": "apps/web/src/components/pullRequest/PullRequestResolveThreadButton.tsx"
+  },
+  {
+    "english": "_No description provided._",
+    "file": "apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx"
+  },
+  {
+    "english": "Choose a thread",
+    "file": "apps/web/src/components/pullRequest/PullRequestThreadLinks.tsx"
+  },
+  {
+    "english": "Could not load pull requests",
+    "file": "apps/web/src/components/pullRequest/PullRequestsUnavailableState.tsx"
+  },
+  {
+    "english": "The ACP could not be prepared.",
+    "file": "apps/web/src/components/settings/AcpRegistrySearchStep.tsx"
+  },
+  {
+    "english": "Headers must be valid JSON.",
+    "file": "apps/web/src/components/settings/AcpSessionManagementSection.tsx"
+  },
+  {
+    "english": "Could not add the route.",
+    "file": "apps/web/src/components/settings/AddEnvironmentDialog.tsx"
+  },
+  {
+    "english": "Failed to create pairing URL.",
+    "file": "apps/web/src/components/settings/AuthorizedClientsSettings.tsx"
+  },
+  {
+    "english": "Codex setup failed. Try again.",
+    "file": "apps/web/src/components/settings/CodexSetupSection.tsx"
+  },
+  {
+    "english": "Complete sign-in in your browser.",
+    "file": "apps/web/src/components/settings/CodexSetupSection.tsx"
+  },
+  {
+    "english": "Failed to update network exposure.",
+    "file": "apps/web/src/components/settings/ConnectionsSettings.tsx"
+  },
+  {
+    "english": "Failed to configure Tailscale HTTPS.",
+    "file": "apps/web/src/components/settings/ConnectionsSettings.tsx"
+  },
+  {
+    "english": "Failed to disable Tailscale HTTPS.",
+    "file": "apps/web/src/components/settings/ConnectionsSettings.tsx"
+  },
+  {
+    "english": "Failed to revoke pairing link.",
+    "file": "apps/web/src/components/settings/ConnectionsSettings.tsx"
+  },
+  {
+    "english": "Failed to revoke client access.",
+    "file": "apps/web/src/components/settings/ConnectionsSettings.tsx"
+  },
+  {
+    "english": "Failed to revoke other clients.",
+    "file": "apps/web/src/components/settings/ConnectionsSettings.tsx"
+  },
+  {
+    "english": "Failed to remove backend.",
+    "file": "apps/web/src/components/settings/ConnectionsSettings.tsx"
+  },
+  {
+    "english": "Failed to update WSL backend.",
+    "file": "apps/web/src/components/settings/ConnectionsSettings.tsx"
+  },
+  {
+    "english": "Unable to open logs folder.",
+    "file": "apps/web/src/components/settings/DiagnosticsSettings.tsx"
+  },
+  {
+    "english": "Profiles separate cookies and logins. Incognito data is cleared when the app closes.",
+    "file": "apps/web/src/components/settings/IntegrationsSettings.tsx"
+  },
+  {
+    "english": "Couldn't change this setting.",
+    "file": "apps/web/src/components/settings/LocalEnvironmentSetting.tsx"
+  },
+  {
+    "english": "Microphones, preferred first",
+    "file": "apps/web/src/components/settings/MicrophoneOrderList.tsx"
+  },
+  {
+    "english": "Could not access the microphone.",
+    "file": "apps/web/src/components/settings/MicrophoneTest.tsx"
+  },
+  {
+    "english": "Record ten seconds and play it back. The audio stays on this device.",
+    "file": "apps/web/src/components/settings/MicrophoneTest.tsx"
+  },
+  {
+    "english": "Third-party notices",
+    "file": "apps/web/src/components/settings/OpenSourceLicenses.tsx"
+  },
+  {
+    "english": "Commands that run in this project's checkout or its worktree, with optional shortcuts.",
+    "file": "apps/web/src/components/settings/ProjectActionsSettings.tsx"
+  },
+  {
+    "english": "Provider sign-in failed. Try again.",
+    "file": "apps/web/src/components/settings/ProviderAuthenticationSection.tsx"
+  },
+  {
+    "english": "Provider setup failed.",
+    "file": "apps/web/src/components/settings/ProviderSetupSection.tsx"
+  },
+  {
+    "english": "Resource monitor",
+    "file": "apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx"
+  },
+  {
+    "english": "CPU speed limit",
+    "file": "apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx"
+  },
+  {
+    "english": "language",
+    "file": "apps/web/src/components/settings/SettingsPanels.tsx"
+  },
+  {
+    "english": "What a screen reader hears from the open thread: a turn starting, needing you, and ending. Status and messages adds what the agent writes before its last message. Everything adds each step.",
+    "file": "apps/web/src/components/settings/SettingsPanels.tsx"
+  },
+  {
+    "english": "screen reader announcements",
+    "file": "apps/web/src/components/settings/SettingsPanels.tsx"
+  },
+  {
+    "english": "Screen reader announcements",
+    "file": "apps/web/src/components/settings/settingsSearch.ts"
+  },
+  {
+    "english": "Choose your shortcut",
+    "file": "apps/web/src/components/settings/SnapShotSetupDialog.tsx"
+  },
+  {
+    "english": "Commit messages and pull request titles and descriptions match each project's history.",
+    "file": "apps/web/src/components/settings/SourceControlWritingSettings.tsx"
+  },
+  {
+    "english": "Conventional Commit prefixes, with short pull request titles and descriptions.",
+    "file": "apps/web/src/components/settings/SourceControlWritingSettings.tsx"
+  },
+  {
+    "english": "Your instructions shape commit messages and pull request titles and descriptions.",
+    "file": "apps/web/src/components/settings/SourceControlWritingSettings.tsx"
+  },
+  {
+    "english": "Commits & pull requests",
+    "file": "apps/web/src/components/settings/SourceControlWritingSettings.tsx"
+  },
+  {
+    "english": "commit and pull request writing",
+    "file": "apps/web/src/components/settings/SourceControlWritingSettings.tsx"
+  },
+  {
+    "english": "Commit and pull request writing",
+    "file": "apps/web/src/components/settings/settingsSearch.ts"
+  },
+  {
+    "english": "Custom commit and pull request instructions for all selected environments",
+    "file": "apps/web/src/components/settings/SourceControlWritingSettings.tsx"
+  },
+  {
+    "english": "Keep commit subjects under 60 characters. Keep pull request descriptions short and plain.",
+    "file": "apps/web/src/components/settings/SourceControlWritingSettings.tsx"
+  },
+  {
+    "english": "Custom commit and pull request instructions",
+    "file": "apps/web/src/components/settings/SourceControlWritingSettings.tsx"
+  },
+  {
+    "english": "Use the repository's pull request template when it has one.",
+    "file": "apps/web/src/components/settings/SourceControlWritingSettings.tsx"
+  },
+  {
+    "english": "pull request templates",
+    "file": "apps/web/src/components/settings/SourceControlWritingSettings.tsx"
+  },
+  {
+    "english": "Follow pull request templates",
+    "file": "apps/web/src/components/settings/settingsSearch.ts"
+  },
+  {
+    "english": "Model for commit messages, pull request text, and branch or bookmark names. When disabled, use the text generation model configured for this environment.",
+    "file": "apps/web/src/components/settings/SourceControlWritingSettings.tsx"
+  },
+  {
+    "english": "not a theme file",
+    "file": "apps/web/src/components/settings/ThemeImportDialog.tsx"
+  },
+  {
+    "english": "could not install",
+    "file": "apps/web/src/components/settings/ThemeImportDialog.tsx"
+  },
+  {
+    "english": "failed",
+    "file": "apps/web/src/components/settings/ThemeImportDialog.tsx"
+  },
+  {
+    "english": "That theme file is invalid.",
+    "file": "apps/web/src/components/settings/ThemeImportDialog.tsx"
+  },
+  {
+    "english": "Open VSX search failed.",
+    "file": "apps/web/src/components/settings/ThemeSearchSection.tsx"
+  },
+  {
+    "english": "Installed themes could not be read.",
+    "file": "apps/web/src/components/settings/ThemeSearchSection.tsx"
+  },
+  {
+    "english": "That theme could not be added.",
+    "file": "apps/web/src/components/settings/ThemeSearchSection.tsx"
+  },
+  {
+    "english": "Code blocks, diffs, and file previews.",
+    "file": "apps/web/src/components/settings/TypographySettings.tsx"
+  },
+  {
+    "english": "Tap to toggle, hold to talk",
+    "file": "apps/web/src/components/settings/VoiceSettingsPanel.tsx"
+  },
+  {
+    "english": "Hold",
+    "file": "apps/web/src/components/settings/VoiceSettingsPanel.tsx"
+  },
+  {
+    "english": "Record while held",
+    "file": "apps/web/src/components/settings/VoiceSettingsPanel.tsx"
+  },
+  {
+    "english": "Tap to start, tap to stop",
+    "file": "apps/web/src/components/settings/VoiceSettingsPanel.tsx"
+  },
+  {
+    "english": "Add words, separated by commas",
+    "file": "apps/web/src/components/settings/VoiceSettingsPanel.tsx"
+  },
+  {
+    "english": "Path to a model file or folder already on this environment",
+    "file": "apps/web/src/components/settings/VoiceSettingsPanel.tsx"
+  },
+  {
+    "english": "Already downloaded elsewhere? Paste the model file or folder path",
+    "file": "apps/web/src/components/settings/VoiceSettingsPanel.tsx"
+  },
+  {
+    "english": "Voice input uses the first connected microphone in this list.",
+    "file": "apps/web/src/components/settings/VoiceSettingsPanel.tsx"
+  },
+  {
+    "english": "Drop “um” and “uh” from transcripts.",
+    "file": "apps/web/src/components/settings/VoiceSettingsPanel.tsx"
+  },
+  {
+    "english": "Your dictionary",
+    "file": "apps/web/src/components/settings/VoiceSettingsPanel.tsx"
+  },
+  {
+    "english": "Names and terms to spell your way, saved on this device.",
+    "file": "apps/web/src/components/settings/VoiceSettingsPanel.tsx"
+  },
+  {
+    "english": "Off by default. Sends the transcript and nearby draft text, never audio, to the cleanup model.",
+    "file": "apps/web/src/components/settings/VoiceSettingsPanel.tsx"
+  },
+  {
+    "english": "The phrase you say to fix a mistake, like “scratch that”.",
+    "file": "apps/web/src/components/settings/VoiceSettingsPanel.tsx"
+  },
+  {
+    "english": "an environment",
+    "file": "apps/web/src/components/settings/scopedSettings.ts"
+  },
+  {
+    "english": "Could not start shortcut recording.",
+    "file": "apps/web/src/components/settings/useSnapShotShortcutRecorder.tsx"
+  },
+  {
+    "english": "Could not start the update",
+    "file": "apps/web/src/components/sidebar/updateEverythingRun.tsx"
+  },
+  {
+    "english": "Could not use the reset credit.",
+    "file": "apps/web/src/components/usage/UsageLimits.tsx"
+  },
+  {
+    "english": "Authentication failed.",
+    "file": "apps/web/src/environments/primary/auth.ts"
+  },
+  {
+    "english": "Upload failed",
+    "file": "apps/web/src/lib/attachmentUploadQueue.ts"
+  },
+  {
+    "english": "theme could not be read",
+    "file": "apps/web/src/openVsxThemes.ts"
+  },
+  {
+    "english": "Could not check this environment's npm registry. Check the connection and registry settings.",
+    "file": "apps/web/src/state/npmRelease.ts"
+  },
+  {
+    "english": "Failed to load refs.",
+    "file": "apps/web/src/state/queries.ts"
+  },
+  {
+    "english": "The environment request failed.",
+    "file": "apps/web/src/state/query.ts"
+  }
+]
