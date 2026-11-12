@@ -43,6 +43,7 @@ interface FileBrowserPanelProps {
   selectedPath: string | null;
   selectedPathRevealId: number;
   onOpenFile: (relativePath: string) => void;
+  onDownloadFile?: (path: string) => Promise<void>;
   /** Host-folder entries use absolute paths. Avoid full traversal: disable expand-all and search only
    * loaded folders. */
   hostFolder?: boolean;
@@ -147,6 +148,7 @@ export default function FileBrowserPanel({
   selectedPath,
   selectedPathRevealId,
   onOpenFile,
+  onDownloadFile,
   onRefreshSelectedFile,
   workspaceMutationId,
   hostFolder = false,
@@ -200,18 +202,33 @@ export default function FileBrowserPanel({
         : { x: anchorRect.left, y: anchorRect.bottom };
       const fileTarget = { environmentId, filePath: relativePath, workspaceRoot: cwd };
       const fileMenuItems = fileContextMenu.buildItems(fileTarget);
+      const canDownload =
+        onDownloadFile !== undefined && entryKindsRef.current.get(relativePath) === "file";
       // The app menu owns focus; the tree's outside-click handler would dismiss it before click.
       context.close({ restoreFocus: !pointerIsFresh });
       void settlePromise(async () => {
         const clicked = await api.contextMenu.show(
           [
             ...fileMenuItems,
+            ...(canDownload ? [{ id: "download-file", label: "Download file" }] : []),
             { id: "copy-mention", label: "Copy mention" },
             { id: "add-to-chat", label: "Add to chat" },
           ],
           position,
         );
         if (clicked === null) return;
+        if (clicked === "download-file" && canDownload) {
+          try {
+            await onDownloadFile?.(panelPath(relativePath));
+          } catch (error) {
+            toastManager.add({
+              type: "error",
+              title: "Could not download file",
+              description: error instanceof Error ? error.message : "Please try again.",
+            });
+          }
+          return;
+        }
         // Open-with submenu ids are absent from the top-level item list.
         const isFileMenuAction =
           fileMenuItems.some((entry) => entry.id === clicked) || clicked.startsWith("editor:");

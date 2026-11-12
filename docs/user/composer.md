@@ -406,6 +406,13 @@ File links refer to the environment's machine, including when you connect remote
 Previews use the original file, even outside the workspace. Moving or deleting it
 can break the preview, so save a copy if you need to keep it.
 
+## Download files from an environment
+
+On web and desktop, open **Files**, right-click a file, and
+choose **Download file**. The original file is saved to the computer running your
+browser or desktop app, including when the environment is remote. Downloads require
+file read access; folders do not offer this action.
+
 ## Files outside the workspace
 
 Follow an agent's file link to read a report or other file outside the workspace.

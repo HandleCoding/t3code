@@ -57,7 +57,8 @@ import {
 } from "react";
 
 import { isBrowserPreviewFile, openFileInPreview } from "~/browser/openFileInPreview";
-import { useAssetUrlRefresh, useAssetUrlState } from "~/assets/assetUrls";
+import { resolveAssetUrl, useAssetUrlRefresh, useAssetUrlState } from "~/assets/assetUrls";
+import { downloadAssetFile } from "~/assets/downloadFile";
 import { OpenInPicker } from "~/components/chat/OpenInPicker";
 import { MediaVideoPlayer } from "~/components/media/MediaVideoPlayer";
 import { MediaActions, type MediaActionSource } from "~/components/media/MediaActions";
@@ -95,7 +96,12 @@ import { PreviewImage } from "./PreviewImage";
 import FileBrowserPanel from "./FileBrowserPanel";
 import { FileExplorerPane } from "./FileExplorerPane";
 import { FileBreadcrumbs } from "./FileBreadcrumbs";
-import { breadcrumbPathOf, retainedBreadcrumbTrail, trailChildOf } from "./filePath";
+import {
+  breadcrumbPathOf,
+  fileBreadcrumbs,
+  retainedBreadcrumbTrail,
+  trailChildOf,
+} from "./filePath";
 import { FileMarkdownPreview } from "./FileMarkdownPreview";
 import {
   type FileCommentAnnotationEntry,
@@ -1067,6 +1073,7 @@ export default function FilePreviewPanel({
   const previewAvailable = usePreviewAvailable(environmentId);
   const createAssetUrl = useAtomQueryRunner(assetEnvironment.createUrl, {
     reportFailure: false,
+    refresh: true,
   });
   const openPreview = useAtomCommand(previewEnvironment.open, {
     reportFailure: false,
@@ -1298,6 +1305,29 @@ export default function FilePreviewPanel({
       return next;
     });
   };
+
+  const handleDownloadFile = useStableCallback(async (filePath: string) => {
+    if (!canReadFiles || !environmentHttpBaseUrl) {
+      throw new Error("Reconnect to the environment and try again.");
+    }
+    const path = resolvePathLinkTarget(filePath, cwd);
+    if (!path) throw new Error("The file path could not be resolved.");
+    const result = await createAssetUrl({
+      environmentId,
+      input: {
+        resource: {
+          _tag: "media-file",
+          threadId: threadRef.threadId,
+          path,
+          disposition: "attachment",
+        },
+      },
+    });
+    if (result._tag === "Failure") throw squashAtomCommandFailure(result);
+    const url = resolveAssetUrl(environmentHttpBaseUrl, result.value.relativeUrl);
+    if (!url) throw new Error("Reconnect to the environment and try again.");
+    await downloadAssetFile(url, fileBreadcrumbs("", filePath).at(-1)?.label ?? filePath);
+  });
 
   const handleOpenInBrowser = () => {
     if (!canReadFiles || !canOperatePreview || !absolutePath || !environmentHttpBaseUrl) return;
@@ -1664,6 +1694,7 @@ export default function FilePreviewPanel({
                 }
                 selectedPathRevealId={revealRequestId}
                 onOpenFile={onOpenFile}
+                {...(canReadFiles ? { onDownloadFile: handleDownloadFile } : {})}
                 answersPanelFind={!previewPath}
                 workspaceMutationId={workspaceMutationId}
                 {...(previewPath && !isMedia && !isPdf
@@ -1766,14 +1797,7 @@ export function WorkspaceLargeTextPreview(props: {
             void (async () => {
               const url = await refreshAssetUrl();
               if (!url) throw new Error("Reconnect to the environment and try again.");
-              const response = await fetch(url);
-              if (!response.ok) throw new Error("The file could not be loaded. Try again.");
-              const downloadUrl = URL.createObjectURL(await response.blob());
-              setTimeout(() => URL.revokeObjectURL(downloadUrl), 30_000);
-              const anchor = document.createElement("a");
-              anchor.href = downloadUrl;
-              anchor.download = props.name.split(/[\\/]/).at(-1) || props.name;
-              anchor.click();
+              await downloadAssetFile(url, props.name.split(/[\\/]/).at(-1) || props.name);
             })()
               .catch(showError)
               .finally(() => setSaving(false));

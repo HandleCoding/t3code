@@ -47,6 +47,42 @@ function findTreeRow(path: string): HTMLElement | null {
 }
 
 describe("FileBrowserPanel", () => {
+  it.each([false, true])("downloads files, not folders, with hostFolder=%s", async (hostFolder) => {
+    const onDownloadFile = vi.fn().mockResolvedValue(undefined);
+    await using _screen = await render(
+      <FileBrowserPanel
+        environmentId={EnvironmentId.make("env-files")}
+        cwd="/repo"
+        projectName="repo"
+        selectedPath={null}
+        selectedPathRevealId={0}
+        onOpenFile={() => {}}
+        hostFolder={hostFolder}
+        onDownloadFile={onDownloadFile}
+        workspaceMutationId={null}
+      />,
+    );
+    using _menu = { [Symbol.dispose]: () => dismissContextMenu() };
+    await vi.waitFor(() => expect(findTreeRow("README.md")).not.toBeNull());
+    findTreeRow("README.md")!.dispatchEvent(
+      new MouseEvent("contextmenu", { bubbles: true, cancelable: true, composed: true, button: 2 }),
+    );
+    const download = page.getByRole("menuitem", { name: "Download file", exact: true });
+    await expect.element(download).toBeVisible();
+    await userEvent.click(download);
+    await vi.waitFor(() =>
+      expect(onDownloadFile).toHaveBeenCalledWith(hostFolder ? "/repo/README.md" : "README.md"),
+    );
+
+    findTreeRow("src/")!.dispatchEvent(
+      new MouseEvent("contextmenu", { bubbles: true, cancelable: true, composed: true, button: 2 }),
+    );
+    await expect
+      .element(page.getByRole("menuitem", { name: "Copy mention", exact: true }))
+      .toBeVisible();
+    await expect.element(download).not.toBeInTheDocument();
+  });
+
   it("copies with the pointer and returns to the row after keyboard dismissal", async () => {
     await using _screen = await render(
       <FileBrowserPanel
