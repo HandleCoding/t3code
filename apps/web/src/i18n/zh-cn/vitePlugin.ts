@@ -1,3 +1,4 @@
+// @effect-diagnostics-next-line nodeBuiltinImport:off -- Vite resolves this plugin before an Effect runtime exists.
 import * as NodePath from "node:path";
 import type { Plugin } from "vite-plus";
 
@@ -85,6 +86,23 @@ function resolveUiPropertyContext(
       // Only translate property values, never object keys
       if (parent.value !== current) return null;
       const keyName = getPropertyKeyName(parent);
+      if (
+        keyName &&
+        [
+          "value",
+          "id",
+          "command",
+          "path",
+          "url",
+          "href",
+          "mode",
+          "type",
+          "model",
+          "provider",
+        ].includes(keyName)
+      ) {
+        return null;
+      }
       if (keyName && (UI_PROPERTY_KEYS.has(keyName) || keyName.startsWith("/settings/"))) {
         return keyName;
       }
@@ -147,9 +165,9 @@ function hasCatalogEntry(text: string): boolean {
   const trimmed = text.trim();
   return Boolean(
     trimmed &&
-      trimmed !== text &&
-      !PROTECTED_EXACT_TOKENS.has(trimmed) &&
-      (trimmed in STATIC_CATALOG || trimmed in CONTEXTUAL_CATALOG),
+    trimmed !== text &&
+    !PROTECTED_EXACT_TOKENS.has(trimmed) &&
+    (trimmed in STATIC_CATALOG || trimmed in CONTEXTUAL_CATALOG),
   );
 }
 
