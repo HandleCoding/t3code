@@ -8,6 +8,7 @@ import {
 } from "../hooks/useSettings";
 import { initializeI18n } from "./initializeI18n";
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "./locales";
+import { setZhLocaleResolver } from "./zh-cn/runtime";
 
 type LocaleTranslations = Awaited<ReturnType<typeof getTranslationsSnapshot>>;
 
@@ -67,6 +68,11 @@ export function persistGTLocale(locale: string): void {
 }
 
 export function startI18n(): void {
+  setZhLocaleResolver(() => {
+    if (getI18nSnapshot().locale.startsWith("zh")) return true;
+    const language = getClientSettings().language;
+    return !language || language === "system" || language.startsWith("zh");
+  });
   initializeI18n(persistGTLocale);
   subscribeClientSettings(applyLanguageSetting);
   applyLanguageSetting();

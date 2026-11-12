@@ -53,15 +53,8 @@ export const PROTECTED_EXACT_TOKENS: ReadonlySet<string> = new Set([
   "SnapShots",
 ]);
 
-/**
- * Paired Permission Modes: labels and descriptions must always be translated as exact pairs.
- * - Supervised = Ask before commands and file changes.
- * - Auto-accept edits = Auto-approve edits, ask before other actions.
- * - Auto = Supported providers approve routine actions; others still ask.
- * - Full access = Allow commands and edits without prompts.
- * - Read only = Read projects and threads. Cannot start, message or change anything.
- */
-export const PERMISSION_MODE_LABEL_MAP: Readonly<Record<string, string>> = {
+// Permission mode labels and descriptions must stay paired.
+const PERMISSION_MODE_LABEL_MAP: Readonly<Record<string, string>> = {
   Supervised: "监督模式",
   "Auto-accept edits": "自动接受编辑",
   Auto: "自动",
@@ -70,7 +63,7 @@ export const PERMISSION_MODE_LABEL_MAP: Readonly<Record<string, string>> = {
   "Read-only": "只读",
 };
 
-export const PERMISSION_MODE_DESCRIPTION_MAP: Readonly<Record<string, string>> = {
+const PERMISSION_MODE_DESCRIPTION_MAP: Readonly<Record<string, string>> = {
   "Ask before commands and file changes.": "在执行命令和修改文件前先询问。",
   "Auto-approve edits, ask before other actions.": "自动批准文件编辑，执行其他操作前仍需询问。",
   "Supported providers approve routine actions; others still ask.":
