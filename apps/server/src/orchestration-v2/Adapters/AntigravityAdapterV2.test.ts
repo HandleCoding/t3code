@@ -42,6 +42,7 @@ import {
   makeAntigravityAcpAdapterFlavor,
   makeAntigravityAdapterV2,
 } from "./AntigravityAdapterV2.ts";
+import { makeTurnInput } from "./AcpAdapterV2.testkit.ts";
 
 const flavor = makeAntigravityAcpAdapterFlavor({
   instanceId: ProviderInstanceId.make("antigravity-test"),
@@ -871,6 +872,289 @@ describe("AntigravityAdapterV2 html_render pages", () => {
 });
 
 describe("AntigravityAdapterV2 subagent reads", () => {
+  it.effect(
+    "routes early, parallel and nested child tools into their batch without duplicating parent tools",
+    () =>
+      Effect.gen(function* () {
+        const childProcessSpawner = yield* ChildProcessSpawner.ChildProcessSpawner;
+        const path = yield* Path.Path;
+        const crypto = yield* SecureRandom.SecureRandom;
+        const mockAgentPath = yield* path.fromFileUrl(
+          new URL("../../../scripts/acp-mock-agent.ts", import.meta.url),
+        );
+        type RuntimeService = AcpSessionRuntime.AcpSessionRuntime["Service"];
+        let send: Parameters<RuntimeService["handleSessionUpdate"]>[0] | undefined;
+        let serve: Parameters<RuntimeService["handleReadTextFile"]>[0] | undefined;
+        let prompts = 0;
+        const a = "a".repeat(32),
+          b = "b".repeat(32),
+          c = "c".repeat(32),
+          d = "d".repeat(32);
+        const instanceId = ProviderInstanceId.make("antigravity-routing-test");
+        const adapter = yield* makeAntigravityAdapterV2({
+          instanceId,
+          selfInvocation: yield* resolveSelfInvocation(),
+          makeRuntime: (input) =>
+            makeAntigravityAcpRuntime({
+              ...input,
+              childProcessSpawner,
+              spawn: {
+                command: process.execPath,
+                args: [mockAgentPath],
+                cwd: input.cwd,
+                env: { T3_ACP_ANTIGRAVITY: "1" },
+              },
+            }).pipe(
+              Effect.provideService(SecureRandom.SecureRandom, crypto),
+              Effect.map((runtime): RuntimeService => ({
+                ...runtime,
+                handleSessionUpdate: (handler) =>
+                  Effect.sync(() => {
+                    send = handler;
+                  }).pipe(Effect.andThen(runtime.handleSessionUpdate(handler))),
+                handleReadTextFile: (handler) =>
+                  Effect.sync(() => {
+                    serve = handler;
+                  }).pipe(Effect.andThen(runtime.handleReadTextFile(handler))),
+                prompt: () =>
+                  Effect.gen(function* () {
+                    if (send === undefined) return yield* Effect.die("missing session handler");
+                    const handler = send;
+                    const update = (update: EffectAcpSchema.SessionUpdate) =>
+                      handler(
+                        normalizeAntigravitySessionUpdate({ sessionId: "mock-session-1", update }),
+                      );
+                    const start = (id: string, title = "Running view_file") =>
+                      update({
+                        sessionUpdate: "tool_call",
+                        toolCallId: id,
+                        title,
+                        kind: title.includes("invoke_subagent") ? "other" : "read",
+                        status: "in_progress",
+                      });
+                    const done = (id: string, text: string) =>
+                      update({
+                        sessionUpdate: "tool_call_update",
+                        toolCallId: id,
+                        status: "completed",
+                        rawOutput: text,
+                      });
+                    const receipt = (...ids: string[]) =>
+                      "Created the following subagents:\n" +
+                      ids.map((conversationId) => JSON.stringify({ conversationId })).join("\n");
+                    if (prompts++ > 0) {
+                      yield* start(`${a}:3`);
+                      yield* done(`${a}:3`, "continued child output");
+                      yield* start("parent-read-2");
+                      yield* done("parent-read-2", "new parent output");
+                      return { stopReason: "end_turn" as const };
+                    }
+                    yield* start("batch-a", "Running invoke_subagent");
+                    yield* start(`${a}:1`);
+                    yield* done(`${a}:1`, "early child output");
+                    yield* done("batch-a", receipt(a, b));
+                    if (serve === undefined) return yield* Effect.die("missing file handler");
+                    const file = path.join(process.cwd(), "package.json");
+                    yield* update({
+                      sessionUpdate: "tool_call",
+                      toolCallId: `${a}:4`,
+                      title: "Running client_view_file",
+                      kind: "read",
+                      status: "in_progress",
+                      rawInput: { absolute_path: file },
+                    });
+                    yield* serve(
+                      { sessionId: a, path: file },
+                      { requestId: "child-read", method: "fs/read_text_file" },
+                    );
+                    yield* update({
+                      sessionUpdate: "tool_call_update",
+                      toolCallId: `${a}:4`,
+                      status: "failed",
+                      rawOutput: "unrelated later step error",
+                    });
+                    yield* start("batch-b", "Running invoke_subagent");
+                    yield* done("batch-b", receipt(a, c));
+                    yield* start(`${b}:1`);
+                    yield* update({
+                      sessionUpdate: "tool_call_content_chunk",
+                      toolCallId: `${b}:1`,
+                      content: {
+                        type: "content",
+                        content: { type: "text", text: "streamed child output" },
+                      },
+                    });
+                    yield* update({
+                      sessionUpdate: "tool_call_update",
+                      toolCallId: `${b}:1`,
+                      status: "failed",
+                    });
+                    yield* start(`${c}:1`);
+                    yield* done(`${c}:1`, "second batch output");
+                    yield* start(`${a}:2`, "Running invoke_subagent");
+                    yield* start(`${d}:1`);
+                    yield* done(`${d}:1`, "nested output");
+                    yield* done(`${a}:2`, receipt(d));
+                    yield* start("parent-read");
+                    yield* done("parent-read", "parent output");
+                    yield* start(`${"e".repeat(32)}:1`);
+                    yield* update({
+                      sessionUpdate: "tool_call_content_chunk",
+                      toolCallId: `${"e".repeat(32)}:1`,
+                      content: {
+                        type: "content",
+                        content: { type: "text", text: "unmatched output" },
+                      },
+                    });
+                    yield* update({
+                      sessionUpdate: "tool_call_update",
+                      toolCallId: `${"e".repeat(32)}:1`,
+                      status: "completed",
+                    });
+                    return { stopReason: "end_turn" as const };
+                  }),
+              })),
+            ),
+          withProcess: (_stop, task) => task,
+          defaultModel: Effect.undefined,
+        });
+        const threadId = ThreadId.make("antigravity-routing");
+        const runtimePolicy = ProviderAdapter.ProviderAdapterV2RuntimePolicy.make({
+          runtimeMode: "full-access",
+          interactionMode: "default",
+          cwd: process.cwd(),
+        });
+        const modelSelection = { instanceId, model: "gemini-test-low" };
+        const session = yield* adapter.openSession({
+          threadId,
+          providerSessionId: ProviderSessionId.make("antigravity-routing-session"),
+          modelSelection,
+          runtimePolicy,
+        });
+        const providerThread = yield* session.ensureThread({
+          threadId,
+          modelSelection,
+          runtimePolicy,
+        });
+        yield* session.startTurn(
+          makeTurnInput({
+            threadId,
+            providerThread,
+            instanceId,
+            runtimePolicy,
+            now: yield* DateTime.now,
+            modelSelection,
+          }),
+        );
+        const events = Array.from(
+          yield* session.events.pipe(
+            Stream.takeUntil((event) => event.type === "turn.terminal"),
+            Stream.runCollect,
+          ),
+        );
+        const tools = events.flatMap((event) =>
+          event.type === "turn_item.updated" && event.turnItem.type === "dynamic_tool"
+            ? [event.turnItem]
+            : [],
+        );
+        const batches = events.flatMap((event) =>
+          event.type === "subagent.updated" ? [event.subagent] : [],
+        );
+        const batchA = batches.find(
+          (batch) => batch.nativeTaskRef?.nativeId === "batch-a",
+        )?.childThreadId;
+        const batchB = batches.find(
+          (batch) => batch.nativeTaskRef?.nativeId === "batch-b",
+        )?.childThreadId;
+        assert.isDefined(batchA);
+        assert.isDefined(batchB);
+        assert.notEqual(batchA, batchB);
+        for (const [id, owner, output] of [
+          [a, batchA, "early child output"],
+          [c, batchB, "second batch output"],
+          [d, batchA, "nested output"],
+        ] as const) {
+          const childTools = tools.filter((tool) =>
+            tool.nativeItemRef?.nativeId?.endsWith(`tool:${id}:1`),
+          );
+          assert.isNotEmpty(childTools);
+          assert.isTrue(childTools.every((tool) => tool.threadId === owner));
+          assert.equal(childTools.at(-1)?.output, output);
+          assert.equal(childTools.at(-1)?.status, "completed");
+        }
+        const streamed = tools.filter((tool) =>
+          tool.nativeItemRef?.nativeId?.endsWith(`tool:${b}:1`),
+        );
+        assert.equal(streamed.at(-1)?.threadId, batchA);
+        assert.equal(streamed.at(-1)?.status, "failed");
+        assert.include(JSON.stringify(streamed.at(-1)?.output), "streamed child output");
+        assert.isFalse(
+          tools.some(
+            (tool) =>
+              tool.threadId === threadId &&
+              [a, b, c, d].some((id) => tool.nativeItemRef?.nativeId?.includes(id)),
+          ),
+        );
+        assert.equal(
+          tools.findLast((tool) => tool.nativeItemRef?.nativeId === "parent-read")?.threadId,
+          threadId,
+        );
+        const unmatched = tools.findLast(
+          (tool) => tool.nativeItemRef?.nativeId === `${"e".repeat(32)}:1`,
+        );
+        assert.include(JSON.stringify(unmatched?.output), "unmatched output");
+        assert.include(unmatched?.title, "Unattributed subagent:");
+        const servedRead = tools.findLast((tool) =>
+          tool.nativeItemRef?.nativeId?.endsWith(`tool:${a}:4`),
+        );
+        assert.equal(servedRead?.threadId, batchA);
+        assert.equal(servedRead?.status, "completed");
+        if (send === undefined) return yield* Effect.die("missing session handler");
+        yield* send(
+          normalizeAntigravitySessionUpdate({
+            sessionId: "mock-session-1",
+            update: {
+              sessionUpdate: "tool_call_update",
+              toolCallId: `${a}:1`,
+              status: "completed",
+              rawOutput: "late output",
+            },
+          }),
+        );
+        yield* session.startTurn(
+          makeTurnInput({
+            threadId,
+            providerThread,
+            instanceId,
+            runtimePolicy,
+            now: yield* DateTime.now,
+            modelSelection,
+            ordinal: 2,
+          }),
+        );
+        const nextEvents = Array.from(
+          yield* session.events.pipe(
+            Stream.takeUntil((event) => event.type === "turn.terminal"),
+            Stream.runCollect,
+          ),
+        );
+        const nextTools = nextEvents.flatMap((event) =>
+          event.type === "turn_item.updated" && event.turnItem.type === "dynamic_tool"
+            ? [event.turnItem]
+            : [],
+        );
+        assert.equal(nextTools.find((tool) => tool.output === "late output")?.threadId, batchA);
+        assert.equal(
+          nextTools.findLast((tool) => tool.output === "continued child output")?.threadId,
+          batchA,
+        );
+        assert.equal(
+          nextTools.findLast((tool) => tool.output === "new parent output")?.threadId,
+          threadId,
+        );
+      }).pipe(Effect.provide(layerSession)),
+  );
+
   it.effect("completes a read T3 served when the agent later fails it with a step error", () =>
     Effect.gen(function* () {
       const childProcessSpawner = yield* ChildProcessSpawner.ChildProcessSpawner;

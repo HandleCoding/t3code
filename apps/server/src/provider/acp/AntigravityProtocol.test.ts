@@ -7,6 +7,8 @@ import {
   extractAntigravityUserInputQuestion,
   antigravityApprovalOptions,
   antigravitySubagentOutput,
+  antigravitySubagentSessionIds,
+  antigravityToolSessionId,
   classifyAntigravitySubagentToolCall,
   isAntigravityUserInputRequest,
   makeAntigravityUserInputResponse,
@@ -24,6 +26,75 @@ import { acpToolCallDiffPatch } from "@t3tools/provider-acp/server/adapter";
 const isSessionNotification = Schema.is(AcpWireSchema.SessionNotification);
 
 describe("native Antigravity subagent tools", () => {
+  it("keeps all child routing IDs when a multi-child launch receipt is truncated for display", () => {
+    const ids = Array.from({ length: 16 }, (_, index) => index.toString(16).padStart(32, "0"));
+    const rawOutput =
+      "Created the following subagents:\n" +
+      ids
+        .map((conversationId) =>
+          JSON.stringify({
+            conversationId,
+            logAbsoluteUri: "file:///" + "long-profile-path/".repeat(100),
+          }),
+        )
+        .join("\n");
+    const notification = normalizeAntigravitySessionUpdate({
+      sessionId: "parent",
+      update: {
+        sessionUpdate: "tool_call",
+        toolCallId: "parent:1",
+        title: "Running invoke_subagent",
+        kind: "other",
+        status: "completed",
+        rawOutput,
+      },
+    });
+    const event = parseSessionUpdateEvent(notification).events.find(
+      (event) => event._tag === "ToolCallUpdated",
+    );
+    expect(event?._tag).toBe("ToolCallUpdated");
+    if (event?._tag !== "ToolCallUpdated") throw new Error("missing tool update");
+    expect(String(event.toolCall.data.rawOutput).length).toBeLessThan(rawOutput.length);
+    expect(antigravitySubagentSessionIds(event.toolCall)).toEqual(ids);
+    expect(
+      antigravitySubagentSessionIds({ ...event.toolCall, title: "Running view_file" }),
+    ).toEqual([]);
+    expect(
+      antigravitySubagentSessionIds({
+        ...event.toolCall,
+        data: { ...event.toolCall.data, meta: { is_mcp_tool_call: true } },
+      }),
+    ).toEqual([]);
+  });
+
+  it("accepts only native trajectory tool IDs and valid, unique receipt children", () => {
+    const child = "a".repeat(32);
+    expect(antigravityToolSessionId(`${child}:23`)).toBe(child);
+    expect(antigravityToolSessionId("7d40e54d-5977-4239-940b-246cdd81a12b:2")).toBe(
+      "7d40e54d-5977-4239-940b-246cdd81a12b",
+    );
+    for (const id of ["call_123", "mcp:2", `${child}:bad`, `${child}:1:extra`])
+      expect(antigravityToolSessionId(id)).toBeUndefined();
+    for (const children of [
+      [child, child],
+      ["../bad"],
+      Array.from({ length: 17 }, (_, index) => index.toString(16).padStart(32, "0")),
+    ]) {
+      expect(
+        antigravitySubagentSessionIds({
+          toolCallId: "parent:1",
+          title: "Running invoke_subagent",
+          kind: "other",
+          data: {
+            rawOutput:
+              "Created the following subagents:\n" +
+              children.map((conversationId) => JSON.stringify({ conversationId })).join("\n"),
+          },
+        }),
+      ).toEqual([]);
+    }
+  });
+
   it("recognizes only native invocation titles and excludes MCP tools", () => {
     const toolCall = { toolCallId: "trajectory:4", kind: "other", data: {} };
     for (const title of [

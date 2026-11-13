@@ -37,6 +37,8 @@ import { watchAntigravityPromptOutcome } from "../../provider/acp/AntigravityTur
 import {
   antigravityApprovalOptions,
   antigravitySubagentOutput,
+  antigravitySubagentSessionIds,
+  antigravityToolSessionId,
   classifyAntigravitySubagentToolCall,
   extractAntigravityUserInputQuestion,
   makeAntigravityReadRepair,
@@ -95,8 +97,7 @@ export interface AntigravityAdapterV2Options {
 }
 
 /**
- * Native subagent tools report no child session ids, so children stay read-only.
- * Only permission prompts carry the launch; NativeChildWorkQuery matches their ids by this text.
+ * Batches stay read-only; launch receipts associate their native child tool streams.
  */
 const extractAntigravitySubagentUpdate: NonNullable<AcpAdapterV2Flavor["extractSubagentUpdate"]> = (
   toolCall,
@@ -120,6 +121,7 @@ const extractAntigravitySubagentUpdate: NonNullable<AcpAdapterV2Flavor["extractS
     model: null,
     status,
     childSessionId: null,
+    childSessionIds: antigravitySubagentSessionIds(toolCall),
     result: status === "failed" ? (antigravitySubagentOutput(toolCall) ?? null) : null,
   };
 };
@@ -272,6 +274,7 @@ export function makeAntigravityAcpAdapterFlavor(
     },
     normalizeToolCall: normalizeAntigravityToolCall,
     extractSubagentUpdate: extractAntigravitySubagentUpdate,
+    toolCallSessionId: antigravityToolSessionId,
     supportsImagePrompts: true,
     // ACP 1.3.0 treats /compact as ordinary model input.
     supportsCompaction: false,

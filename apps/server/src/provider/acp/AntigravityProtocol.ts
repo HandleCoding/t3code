@@ -324,7 +324,15 @@ export function normalizeAntigravitySessionUpdate(
     );
     return decoded === undefined ? [] : [decoded];
   });
-  const meta = sanitizeAntigravityToolPayload(update._meta);
+  const childSessionIds = antigravityReceiptSessionIds(update.rawOutput);
+  const originalMeta = sanitizeAntigravityToolPayload(update._meta);
+  const meta =
+    childSessionIds.length === 0
+      ? originalMeta
+      : {
+          ...(isJsonRecord(originalMeta) ? originalMeta : {}),
+          "t3.antigravity.childSessionIds": childSessionIds,
+        };
   return {
     ...notification,
     update: {
@@ -337,7 +345,9 @@ export function normalizeAntigravitySessionUpdate(
         ? { rawOutput: sanitizeAntigravityToolPayload(update.rawOutput) }
         : {}),
       ...(update.content !== undefined ? { content: content ?? [] } : {}),
-      ...(update._meta !== undefined ? { _meta: isJsonRecord(meta) ? meta : null } : {}),
+      ...(update._meta !== undefined || childSessionIds.length > 0
+        ? { _meta: isJsonRecord(meta) ? meta : null }
+        : {}),
     },
   };
 }
@@ -487,7 +497,7 @@ const ANTIGRAVITY_SUBAGENT_TITLES = new Set([
   "Run invoke_subagent?",
 ]);
 
-/** The ACP agent reports subagent calls as ordinary tools without child IDs or models. */
+/** The ACP agent reports native subagent invocations as ordinary tools. */
 export function classifyAntigravitySubagentToolCall(
   toolCall: AcpToolCallState,
   rawPayload?: unknown,
@@ -506,4 +516,40 @@ export function classifyAntigravitySubagentToolCall(
 export function antigravitySubagentOutput(toolCall: AcpToolCallState): string | undefined {
   const output = toolCall.data.rawOutput;
   return typeof output === "string" && output.trim() ? boundText(output.trim()) : undefined;
+}
+
+/** SDK tool IDs retain their trajectory even when ACP reports them on the root session. */
+export function antigravityToolSessionId(toolCallId: string): string | undefined {
+  return /^([a-f0-9]{32}|[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}):\d+$/i.exec(toolCallId)?.[1];
+}
+
+export function antigravitySubagentSessionIds(toolCall: AcpToolCallState): ReadonlyArray<string> {
+  if (classifyAntigravitySubagentToolCall(toolCall) !== "subagent") return [];
+  const meta = toolCall.data.meta;
+  const saved = Predicate.isObject(meta) ? meta["t3.antigravity.childSessionIds"] : undefined;
+  if (
+    Array.isArray(saved) &&
+    saved.length <= 16 &&
+    saved.length > 0 &&
+    saved.every(
+      (id): id is string => typeof id === "string" && antigravityToolSessionId(`${id}:0`) === id,
+    ) &&
+    new Set(saved).size === saved.length
+  )
+    return saved;
+  return antigravityReceiptSessionIds(toolCall.data.rawOutput);
+}
+
+/** Keep routing IDs before the display output is bounded, including long multi-child receipts. */
+function antigravityReceiptSessionIds(output: unknown): ReadonlyArray<string> {
+  if (typeof output !== "string" || !output.includes("Created the following subagents:")) return [];
+  const ids: string[] = [];
+  for (const match of output.matchAll(/"conversationId"\s*:\s*"([^"]*)"/g)) {
+    const id = match[1];
+    if (id === undefined || antigravityToolSessionId(`${id}:0`) !== id || ids.length >= 16)
+      return [];
+    ids.push(id);
+  }
+  if (ids.length === 0 || new Set(ids).size !== ids.length) return [];
+  return ids;
 }

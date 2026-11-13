@@ -123,6 +123,10 @@ which children a batch started, the view says so. See
 [agent work](./thread-sidebar.md#inspect-agent-work) for where to inspect
 activity.
 
+Identified child tool calls appear in the batch's timeline. If a child tool call
+cannot be matched to a batch, it remains in the parent labeled
+**Unattributed subagent** so the activity is still visible.
+
 ## Accounts and removal
 
 Add an Antigravity provider instance for each Google account in
