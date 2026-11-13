@@ -55,16 +55,16 @@ flowchart LR
 
 ## 二、 目录结构
 
-| 路径 | 职责说明 |
-| :--- | :--- |
-| `apps/web/src/i18n/zh-cn/vitePlugin.ts` | Vite 后置 AST 转换插件 `t3codeZhLocalizationPlugin()`（零外部依赖，直接使用 Vite 内置 ESTree 解析器） |
-| `apps/web/src/i18n/zh-cn/runtime.ts` | 运行时翻译函数 `__t3zh(text, ctxKey)`，联动 `getI18nSnapshot()` 与上下文规则 |
-| `apps/web/src/i18n/zh-cn/contextualRules.ts` | 品牌保护集合、五组权限标签与说明强绑定映射、同词异义（`Code`/`Auto`/`Click` 等）按文件与属性消歧逻辑 |
-| `apps/web/src/i18n/zh-cn/catalog.json` | 由 `sync` 编译生成的 4,393 条静态安全 UI 词典 |
-| `apps/web/src/i18n/zh-cn/contextualCatalog.json` | 由 `sync` 编译生成的 164 条上下文消歧词典 |
-| `scripts/i18n-zh/cli.mjs` | 词表编译同步、状态校验、上游增量扫描 CLI 工具 |
-| `scripts/i18n-zh/data/reviewed-translations.json` | 完整 5,410 条审校主数据源（含 `translate` / `keep` / `contextual` / `exclude` 决策与理由） |
-| `scripts/i18n-zh/data/terminology-guide.md` | 完整术语规范、权限配对表与消歧指南 |
+| 路径                                              | 职责说明                                                                                              |
+| :------------------------------------------------ | :---------------------------------------------------------------------------------------------------- |
+| `apps/web/src/i18n/zh-cn/vitePlugin.ts`           | Vite 后置 AST 转换插件 `t3codeZhLocalizationPlugin()`（零外部依赖，直接使用 Vite 内置 ESTree 解析器） |
+| `apps/web/src/i18n/zh-cn/runtime.ts`              | 运行时翻译函数 `__t3zh(text, ctxKey)`，联动 `getI18nSnapshot()` 与上下文规则                          |
+| `apps/web/src/i18n/zh-cn/contextualRules.ts`      | 品牌保护集合、五组权限标签与说明强绑定映射、同词异义（`Code`/`Auto`/`Click` 等）按文件与属性消歧逻辑  |
+| `apps/web/src/i18n/zh-cn/catalog.json`            | 由 `sync` 编译生成的 4,393 条静态安全 UI 词典                                                         |
+| `apps/web/src/i18n/zh-cn/contextualCatalog.json`  | 由 `sync` 编译生成的 164 条上下文消歧词典                                                             |
+| `scripts/i18n-zh/cli.mjs`                         | 词表编译同步、状态校验、上游增量扫描 CLI 工具                                                         |
+| `scripts/i18n-zh/data/reviewed-translations.json` | 完整 5,410 条审校主数据源（含 `translate` / `keep` / `contextual` / `exclude` 决策与理由）            |
+| `scripts/i18n-zh/data/terminology-guide.md`       | 完整术语规范、权限配对表与消歧指南                                                                    |
 
 ---
 
