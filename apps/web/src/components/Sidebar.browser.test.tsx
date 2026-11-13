@@ -98,7 +98,11 @@ describe("sidebar header new thread", () => {
       </SidebarProvider>,
     );
 
-    await userEvent.click(screen.getByRole("button", { name: "New thread", exact: true }), {
+    const newThreadButton = screen.getByRole("button", { name: "New thread", exact: true });
+    await expect
+      .element(newThreadButton)
+      .toHaveAccessibleDescription(scenario.count === 1 ? "Project active" : "Select project");
+    await userEvent.click(newThreadButton, {
       modifiers: scenario.shift ? ["Shift"] : [],
     });
 

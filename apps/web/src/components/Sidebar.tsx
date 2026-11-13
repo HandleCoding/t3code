@@ -127,7 +127,7 @@ import { useProjectPin } from "../hooks/useProjectGroupUpdate";
 import { useSidebarProjectGroups } from "../hooks/useSidebarProjectGroups";
 import { isCommandPaletteOpen, openCommandPalette } from "../commandPaletteBus";
 import { registerSettleAndAdvance } from "../settleAndAdvance";
-import { startNewThreadFromContext } from "../lib/chatThreadActions";
+import { resolveThreadActionProjectRef, startNewThreadFromContext } from "../lib/chatThreadActions";
 import { useClientSettings } from "../hooks/useSettings";
 import { useCopyToClipboard } from "../hooks/useCopyToClipboard";
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -2934,6 +2934,21 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
 
   const showJumpHints = useThreadJumpHintsVisible(keybindings, routeThreadRef);
 
+  const newThreadActionContext = {
+    activeDraftThread: newThreadContext.activeDraftThread,
+    activeThread: newThreadContext.activeThread ?? undefined,
+    defaultProjectRef: newThreadContext.defaultProjectRef,
+    handleNewThread,
+  };
+  const newThreadProjectRef = resolveThreadActionProjectRef(newThreadActionContext);
+  const newThreadProjectName =
+    shouldCreateNewThreadInCurrentProject(false, scopeGroups.length, projectGroups.length) &&
+    newThreadProjectRef
+      ? (projectDisplayNameByKey.get(
+          `${newThreadProjectRef.environmentId}:${newThreadProjectRef.projectId}`,
+        ) ?? null)
+      : null;
+
   const handleNewThreadClick = (event?: ReactMouseEvent) => {
     if (
       shouldCreateNewThreadInCurrentProject(
@@ -2944,12 +2959,7 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
     ) {
       if (isMobile) setOpenMobile(false);
       // With no current or open project, such as when every project is archived, pick one.
-      void startNewThreadFromContext({
-        activeDraftThread: newThreadContext.activeDraftThread,
-        activeThread: newThreadContext.activeThread ?? undefined,
-        defaultProjectRef: newThreadContext.defaultProjectRef,
-        handleNewThread,
-      }).then((started) => {
+      void startNewThreadFromContext(newThreadActionContext).then((started) => {
         if (!started) openCommandPalette({ open: "new-thread-in" });
       });
       return;
@@ -3178,6 +3188,7 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
               onNewProject={openAddProjectCommandPalette}
               onNewThread={handleNewThreadClick}
               newThreadDisabled={projects.length === 0}
+              newThreadProjectName={newThreadProjectName}
               newThreadShortcutLabel={newThreadShortcutLabel}
               newThreadInProjectShortcutLabel={newThreadInProjectShortcutLabel}
               showNewThreadInProjectHint={
