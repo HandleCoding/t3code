@@ -277,6 +277,21 @@ export function t3codeZhLocalizationPlugin(): Plugin {
 
         if (!propCtx) return;
 
+        // These wordmarks render the brand as a T3 icon followed by a separate Code label.
+        if (
+          value === "Code" &&
+          propCtx === "children" &&
+          ancestors.some(
+            (ancestor) =>
+              ancestor.type === "FunctionDeclaration" &&
+              ((fileBase === "SidebarChrome.tsx" && ancestor.id?.name === "SidebarBrandMark") ||
+                (fileBase === "standalone-page.tsx" &&
+                  ancestor.id?.name === "StandalonePageHeader")),
+          )
+        ) {
+          return;
+        }
+
         const ctxKey = `${fileBase}:${propCtx}`;
         edits.push({
           start: node.start,
