@@ -1,41 +1,18 @@
 #!/usr/bin/env node
-/**
- * T3 Code Zero-Intrusion Chinese Localization CLI (scripts/i18n-zh/cli.mjs)
- *
- * Commands:
- *   node scripts/i18n-zh/cli.mjs sync
- *     Compiles scripts/i18n-zh/data/reviewed-translations.json into:
- *       - apps/web/src/i18n/zh-cn/catalog.json (4,393 safe static UI translations)
- *       - apps/web/src/i18n/zh-cn/contextualCatalog.json (164 context-disambiguated entries)
- *       - apps/web/src/i18n/translations/zh.json (aligned gt-react hash catalog)
- *
- *   node scripts/i18n-zh/cli.mjs status
- *     Validates all 5,410 reviewed entries, permission mode pairs, and brand protections.
- *
- *   node scripts/i18n-zh/cli.mjs test
- *     Runs self-contained verification of contextual rules, permission pairs, brand protection,
- *     and AST transformation on T3 Code module snippets.
- *
- *   node scripts/i18n-zh/cli.mjs audit-upstream
- *     Scans apps/web/src/ (.ts/.tsx) after `git rebase upstream/main` to report coverage
- *     and write any newly added upstream UI strings to scripts/i18n-zh/data/untranslated-delta.json.
- *
- *   node scripts/i18n-zh/cli.mjs patch-bundle <client-dir>
- *     Applies context-aware AST localization to a pre-built T3 Code client bundle directory.
- */
+// Compile reviewed translations, validate the catalogs, or audit new upstream UI strings.
+// Usage: node scripts/i18n-zh/cli.mjs <sync|status|test|audit-upstream>
 
-import assert from "node:assert/strict";
-import crypto from "node:crypto";
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import * as NodeAssert from "node:assert/strict";
+import * as NodeFS from "node:fs";
+import * as NodePath from "node:path";
+import * as NodeURL from "node:url";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const REPO_ROOT = path.resolve(__dirname, "../..");
-const DATA_DIR = path.join(__dirname, "data");
-const ZH_MODULE_DIR = path.join(REPO_ROOT, "apps/web/src/i18n/zh-cn");
-const GT_EN_PATH = path.join(REPO_ROOT, "apps/web/src/i18n/translations/en.json");
-const GT_ZH_PATH = path.join(REPO_ROOT, "apps/web/src/i18n/translations/zh.json");
+const __dirname = NodePath.dirname(NodeURL.fileURLToPath(import.meta.url));
+const REPO_ROOT = NodePath.resolve(__dirname, "../..");
+const DATA_DIR = NodePath.join(__dirname, "data");
+const ZH_MODULE_DIR = NodePath.join(REPO_ROOT, "apps/web/src/i18n/zh-cn");
+const GT_EN_PATH = NodePath.join(REPO_ROOT, "apps/web/src/i18n/translations/en.json");
+const GT_ZH_PATH = NodePath.join(REPO_ROOT, "apps/web/src/i18n/translations/zh.json");
 
 const PROTECTED_BRANDS = [
   "T3 Code",
@@ -100,13 +77,13 @@ const PERMISSION_PAIRS = [
 ];
 
 function loadReviewed() {
-  const file = path.join(DATA_DIR, "reviewed-translations.json");
-  return JSON.parse(fs.readFileSync(file, "utf8"));
+  const file = NodePath.join(DATA_DIR, "reviewed-translations.json");
+  return JSON.parse(NodeFS.readFileSync(file, "utf8"));
 }
 
 function cmdSync() {
   const reviewed = loadReviewed();
-  fs.mkdirSync(ZH_MODULE_DIR, { recursive: true });
+  NodeFS.mkdirSync(ZH_MODULE_DIR, { recursive: true });
 
   const catalog = {};
   const contextualCatalog = {};
@@ -123,16 +100,16 @@ function cmdSync() {
     }
   }
 
-  const catalogPath = path.join(ZH_MODULE_DIR, "catalog.json");
-  const contextualPath = path.join(ZH_MODULE_DIR, "contextualCatalog.json");
+  const catalogPath = NodePath.join(ZH_MODULE_DIR, "catalog.json");
+  const contextualPath = NodePath.join(ZH_MODULE_DIR, "contextualCatalog.json");
 
-  fs.writeFileSync(catalogPath, JSON.stringify(catalog, null, 2) + "\n", "utf8");
-  fs.writeFileSync(contextualPath, JSON.stringify(contextualCatalog, null, 2) + "\n", "utf8");
+  NodeFS.writeFileSync(catalogPath, JSON.stringify(catalog, null, 2) + "\n", "utf8");
+  NodeFS.writeFileSync(contextualPath, JSON.stringify(contextualCatalog, null, 2) + "\n", "utf8");
 
   let gtUpdated = 0;
-  if (fs.existsSync(GT_EN_PATH) && fs.existsSync(GT_ZH_PATH)) {
-    const gtEn = JSON.parse(fs.readFileSync(GT_EN_PATH, "utf8"));
-    const gtZh = JSON.parse(fs.readFileSync(GT_ZH_PATH, "utf8"));
+  if (NodeFS.existsSync(GT_EN_PATH) && NodeFS.existsSync(GT_ZH_PATH)) {
+    const gtEn = JSON.parse(NodeFS.readFileSync(GT_EN_PATH, "utf8"));
+    const gtZh = JSON.parse(NodeFS.readFileSync(GT_ZH_PATH, "utf8"));
     for (const [hash, enText] of Object.entries(gtEn)) {
       const preferred = catalog[enText] ?? contextualCatalog[enText];
       if (preferred && gtZh[hash] !== preferred) {
@@ -140,7 +117,7 @@ function cmdSync() {
         gtUpdated++;
       }
     }
-    fs.writeFileSync(GT_ZH_PATH, JSON.stringify(gtZh, null, 2) + "\n", "utf8");
+    NodeFS.writeFileSync(GT_ZH_PATH, JSON.stringify(gtZh, null, 2) + "\n", "utf8");
   }
 
   console.log(
@@ -207,44 +184,51 @@ function cmdStatus() {
 }
 
 function cmdTest() {
-  const catalog = JSON.parse(fs.readFileSync(path.join(ZH_MODULE_DIR, "catalog.json"), "utf8"));
-  const contextual = JSON.parse(
-    fs.readFileSync(path.join(ZH_MODULE_DIR, "contextualCatalog.json"), "utf8"),
+  const catalog = JSON.parse(
+    NodeFS.readFileSync(NodePath.join(ZH_MODULE_DIR, "catalog.json"), "utf8"),
   );
-  const gtEn = JSON.parse(fs.readFileSync(GT_EN_PATH, "utf8"));
-  const gtZh = JSON.parse(fs.readFileSync(GT_ZH_PATH, "utf8"));
+  const contextual = JSON.parse(
+    NodeFS.readFileSync(NodePath.join(ZH_MODULE_DIR, "contextualCatalog.json"), "utf8"),
+  );
+  const gtEn = JSON.parse(NodeFS.readFileSync(GT_EN_PATH, "utf8"));
+  const gtZh = JSON.parse(NodeFS.readFileSync(GT_ZH_PATH, "utf8"));
 
   // 1. Verify all 5 permission pairs in compiled catalogs
   for (const pair of PERMISSION_PAIRS) {
     const actualLabel = catalog[pair.labelEn] ?? contextual[pair.labelEn];
     const actualDesc = catalog[pair.descEn] ?? contextual[pair.descEn];
-    assert.equal(actualLabel, pair.labelZh, `Permission label mismatch for ${pair.labelEn}`);
-    assert.equal(actualDesc, pair.descZh, `Permission description mismatch for ${pair.descEn}`);
+    NodeAssert.equal(actualLabel, pair.labelZh, `Permission label mismatch for ${pair.labelEn}`);
+    NodeAssert.equal(actualDesc, pair.descZh, `Permission description mismatch for ${pair.descEn}`);
   }
 
   // 2. Verify "T3 Code" and other brands are never in static catalog with altered brand text
-  assert.equal(catalog["T3 Code"], undefined, "T3 Code must be protected and never in catalog");
-  assert.equal(catalog["Claude Code"], undefined, "Claude Code must be protected");
-  assert.equal(catalog["Code"], undefined, "Ambiguous 'Code' must not be in global static catalog");
-  assert.equal(contextual["Code"], "代码", "'Code' must be in contextual catalog as '代码'");
-  assert.equal(contextual["Auto"], "自动", "'Auto' must be in contextual catalog as '自动'");
+  NodeAssert.equal(catalog["T3 Code"], undefined, "T3 Code must be protected and never in catalog");
+  NodeAssert.equal(catalog["Claude Code"], undefined, "Claude Code must be protected");
+  NodeAssert.equal(
+    catalog["Code"],
+    undefined,
+    "Ambiguous 'Code' must not be in global static catalog",
+  );
+  NodeAssert.equal(contextual["Code"], "代码", "'Code' must be in contextual catalog as '代码'");
+  NodeAssert.equal(contextual["Auto"], "自动", "'Auto' must be in contextual catalog as '自动'");
 
   // 3. Verify gt-react zh.json alignment
   for (const [hash, enText] of Object.entries(gtEn)) {
-    if (enText === "Threads") assert.equal(gtZh[hash], "会话");
-    if (enText === "Agents") assert.equal(gtZh[hash], "Agent");
-    if (enText === "Providers") assert.equal(gtZh[hash], "模型服务");
-    if (enText === "Source control") assert.equal(gtZh[hash], "版本控制");
+    if (enText === "Threads") NodeAssert.equal(gtZh[hash], "会话");
+    if (enText === "Agents") NodeAssert.equal(gtZh[hash], "Agent");
+    if (enText === "Providers") NodeAssert.equal(gtZh[hash], "模型服务");
+    if (enText === "Source control") NodeAssert.equal(gtZh[hash], "版本控制");
   }
 
   console.log("✓ All localization engine & catalog assertions passed!");
 }
 
 function walkFiles(dir, out = []) {
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const full = path.join(dir, entry.name);
+  for (const entry of NodeFS.readdirSync(dir, { withFileTypes: true })) {
+    const full = NodePath.join(dir, entry.name);
     if (entry.isDirectory()) {
-      if (entry.name === "node_modules" || entry.name === "dist" || entry.name === "zh-cn") continue;
+      if (entry.name === "node_modules" || entry.name === "dist" || entry.name === "zh-cn")
+        continue;
       walkFiles(full, out);
     } else if (
       /\.(tsx|ts)$/.test(entry.name) &&
@@ -259,7 +243,7 @@ function walkFiles(dir, out = []) {
 function cmdAuditUpstream() {
   const reviewed = loadReviewed();
   const known = new Map(reviewed.map((r) => [r.english, r]));
-  const srcRoot = path.join(REPO_ROOT, "apps/web/src");
+  const srcRoot = NodePath.join(REPO_ROOT, "apps/web/src");
   const files = walkFiles(srcRoot);
 
   const propRegex =
@@ -269,7 +253,7 @@ function cmdAuditUpstream() {
   const untranslated = [];
 
   for (const file of files) {
-    const content = fs.readFileSync(file, "utf8");
+    const content = NodeFS.readFileSync(file, "utf8");
     let match;
     while ((match = propRegex.exec(content)) !== null) {
       const value = match[1] ?? match[2];
@@ -281,7 +265,7 @@ function cmdAuditUpstream() {
       if (!known.has(value)) {
         untranslated.push({
           english: value,
-          file: path.relative(REPO_ROOT, file),
+          file: NodePath.relative(REPO_ROOT, file),
         });
       }
     }
@@ -290,8 +274,8 @@ function cmdAuditUpstream() {
   const uniqueUntranslated = Array.from(
     new Map(untranslated.map((item) => [item.english, item])).values(),
   );
-  const deltaPath = path.join(DATA_DIR, "untranslated-delta.json");
-  fs.writeFileSync(deltaPath, JSON.stringify(uniqueUntranslated, null, 2) + "\n", "utf8");
+  const deltaPath = NodePath.join(DATA_DIR, "untranslated-delta.json");
+  NodeFS.writeFileSync(deltaPath, JSON.stringify(uniqueUntranslated, null, 2) + "\n", "utf8");
 
   const coveredCount = foundInSource.size - uniqueUntranslated.length;
   console.log(
@@ -305,7 +289,7 @@ function cmdAuditUpstream() {
             ? Number(((coveredCount / foundInSource.size) * 100).toFixed(2))
             : 100,
         newUntranslatedDeltaCount: uniqueUntranslated.length,
-        deltaFile: path.relative(REPO_ROOT, deltaPath),
+        deltaFile: NodePath.relative(REPO_ROOT, deltaPath),
       },
       null,
       2,

@@ -132,12 +132,28 @@
     "file": "apps/web/src/components/chat/ComposerSpeechButton.tsx"
   },
   {
+    "english": "Agents here can then launch, message and wait on threads there. Revoke it in that machine's Sharing & access.",
+    "file": "apps/web/src/components/chat/LinkRequestCard.tsx"
+  },
+  {
     "english": "The diagram could not be rendered.",
     "file": "apps/web/src/components/chat/MermaidDiagram.tsx"
   },
   {
+    "english": "Preparing fix",
+    "file": "apps/web/src/components/chat/ThreadDetailsPrRow.tsx"
+  },
+  {
     "english": "Search failed",
     "file": "apps/web/src/components/chat/ThreadFindBar.tsx"
+  },
+  {
+    "english": "Could not open the parent thread",
+    "file": "apps/web/src/components/chat/ThreadRelationshipsControl.tsx"
+  },
+  {
+    "english": "The parent thread was deleted",
+    "file": "apps/web/src/components/chat/ThreadRelationshipsControl.tsx"
   },
   {
     "english": "Reply to this response",
@@ -166,6 +182,22 @@
   {
     "english": "Could not resume thread.",
     "file": "apps/web/src/components/chat/useComposerResume.ts"
+  },
+  {
+    "english": "Still sending your previous message.",
+    "file": "apps/web/src/components/chat/useComposerSend.ts"
+  },
+  {
+    "english": "Send again once it goes through or fails.",
+    "file": "apps/web/src/components/chat/useComposerSend.ts"
+  },
+  {
+    "english": "Your new draft was kept. Copy the failed message to send it again.",
+    "file": "apps/web/src/components/chat/useComposerSend.ts"
+  },
+  {
+    "english": "Could not switch machine",
+    "file": "apps/web/src/components/chat/useDraftEnvironmentRouting.ts"
   },
   {
     "english": "Failed to send messages.",
@@ -222,6 +254,14 @@
   {
     "english": "Could not load this file.",
     "file": "apps/web/src/components/files/AttachmentFilePreview.tsx"
+  },
+  {
+    "english": "Download file",
+    "file": "apps/web/src/components/files/FileBrowserPanel.tsx"
+  },
+  {
+    "english": "Could not download file",
+    "file": "apps/web/src/components/files/FileBrowserPanel.tsx"
   },
   {
     "english": "File contents",
@@ -380,6 +420,14 @@
     "file": "apps/web/src/components/settings/ProjectActionsSettings.tsx"
   },
   {
+    "english": "Different actions across checkouts",
+    "file": "apps/web/src/components/settings/ProjectActionsSettings.tsx"
+  },
+  {
+    "english": "Narrow the selection above to one checkout to edit its list. Adding an action here adds it to every selected checkout.",
+    "file": "apps/web/src/components/settings/ProjectActionsSettings.tsx"
+  },
+  {
     "english": "Provider sign-in failed. Try again.",
     "file": "apps/web/src/components/settings/ProviderAuthenticationSection.tsx"
   },
@@ -400,6 +448,10 @@
     "file": "apps/web/src/components/settings/SettingsPanels.tsx"
   },
   {
+    "english": "Screen reader",
+    "file": "apps/web/src/components/settings/SettingsPanels.tsx"
+  },
+  {
     "english": "What a screen reader hears from the open thread: a turn starting, needing you, and ending. Status and messages adds what the agent writes before its last message. Everything adds each step.",
     "file": "apps/web/src/components/settings/SettingsPanels.tsx"
   },
@@ -412,8 +464,40 @@
     "file": "apps/web/src/components/settings/settingsSearch.ts"
   },
   {
+    "english": "Start the window title with the thread's status, like Needs approval, and its name, so screen readers read them first when you switch apps. Taskbars, shared screens, and time trackers see it too.",
+    "file": "apps/web/src/components/settings/SettingsPanels.tsx"
+  },
+  {
+    "english": "screen reader window title",
+    "file": "apps/web/src/components/settings/SettingsPanels.tsx"
+  },
+  {
+    "english": "Screen reader window title",
+    "file": "apps/web/src/components/settings/settingsSearch.ts"
+  },
+  {
+    "english": "Stop the computer from going to sleep while agents are working, and let it sleep once they finish. Closing a laptop lid still puts it to sleep.",
+    "file": "apps/web/src/components/settings/SettingsPanels.tsx"
+  },
+  {
+    "english": "keep awake while agents work",
+    "file": "apps/web/src/components/settings/SettingsPanels.tsx"
+  },
+  {
+    "english": "Keep awake while agents work",
+    "file": "apps/web/src/components/settings/settingsSearch.ts"
+  },
+  {
+    "english": "All checkouts",
+    "file": "apps/web/src/components/settings/SettingsScopeSentence.tsx"
+  },
+  {
     "english": "Choose your shortcut",
     "file": "apps/web/src/components/settings/SnapShotSetupDialog.tsx"
+  },
+  {
+    "english": "save source control providers",
+    "file": "apps/web/src/components/settings/SourceControlSettings.tsx"
   },
   {
     "english": "Commit messages and pull request titles and descriptions match each project's history.",
@@ -465,6 +549,10 @@
   },
   {
     "english": "Model for commit messages, pull request text, and branch or bookmark names. When disabled, use the text generation model configured for this environment.",
+    "file": "apps/web/src/components/settings/SourceControlWritingSettings.tsx"
+  },
+  {
+    "english": "Writer model not saved",
     "file": "apps/web/src/components/settings/SourceControlWritingSettings.tsx"
   },
   {
@@ -560,8 +648,40 @@
     "file": "apps/web/src/components/settings/useSnapShotShortcutRecorder.tsx"
   },
   {
+    "english": "Dropping folders needs the desktop app",
+    "file": "apps/web/src/components/sidebar/SidebarFolderDrop.tsx"
+  },
+  {
+    "english": "Browsers do not share folder paths. Use Add project to choose a folder.",
+    "file": "apps/web/src/components/sidebar/SidebarFolderDrop.tsx"
+  },
+  {
+    "english": "This computer's server is not connected yet",
+    "file": "apps/web/src/components/sidebar/SidebarFolderDrop.tsx"
+  },
+  {
+    "english": "Try again when it connects.",
+    "file": "apps/web/src/components/sidebar/SidebarFolderDrop.tsx"
+  },
+  {
+    "english": "Only folders can be added as projects",
+    "file": "apps/web/src/components/sidebar/SidebarFolderDrop.tsx"
+  },
+  {
+    "english": "Drop files on a thread to attach them.",
+    "file": "apps/web/src/components/sidebar/SidebarFolderDrop.tsx"
+  },
+  {
     "english": "Could not start the update",
     "file": "apps/web/src/components/sidebar/updateEverythingRun.tsx"
+  },
+  {
+    "english": "Title kept",
+    "file": "apps/web/src/components/threadTitleRegenerationToast.ts"
+  },
+  {
+    "english": "The current title already fits this thread.",
+    "file": "apps/web/src/components/threadTitleRegenerationToast.ts"
   },
   {
     "english": "Could not use the reset credit.",
@@ -582,6 +702,10 @@
   {
     "english": "Could not check this environment's npm registry. Check the connection and registry settings.",
     "file": "apps/web/src/state/npmRelease.ts"
+  },
+  {
+    "english": "environment-data:orchestration:thread-titles-read",
+    "file": "apps/web/src/state/orchestration.ts"
   },
   {
     "english": "Failed to load refs.",
