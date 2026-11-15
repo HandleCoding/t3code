@@ -12,6 +12,10 @@
     "file": "apps/web/src/components/AddProjectToMachineDialog.tsx"
   },
   {
+    "english": "Search ignored files",
+    "file": "apps/web/src/components/AddProjectToMachineDialog.tsx"
+  },
+  {
     "english": "Insight",
     "file": "apps/web/src/components/ChatMarkdown.tsx"
   },
@@ -68,10 +72,6 @@
     "file": "apps/web/src/components/ThreadTerminalDrawer.tsx"
   },
   {
-    "english": "Terminal write failed",
-    "file": "apps/web/src/components/ThreadTerminalDrawer.tsx"
-  },
-  {
     "english": "Unable to initialize libghostty-vt",
     "file": "apps/web/src/components/ThreadTerminalDrawer.tsx"
   },
@@ -89,6 +89,14 @@
   },
   {
     "english": "For your safety, agent sign-ins cannot be approved inside another site.",
+    "file": "apps/web/src/components/auth/ApproveAgentSurface.tsx"
+  },
+  {
+    "english": "Could not load sign-in",
+    "file": "apps/web/src/components/auth/ApproveAgentSurface.tsx"
+  },
+  {
+    "english": "T3 Connect sign-in did not load. Check your connection, then try again.",
     "file": "apps/web/src/components/auth/ApproveAgentSurface.tsx"
   },
   {
@@ -138,6 +146,10 @@
   {
     "english": "The diagram could not be rendered.",
     "file": "apps/web/src/components/chat/MermaidDiagram.tsx"
+  },
+  {
+    "english": "Goal objective",
+    "file": "apps/web/src/components/chat/ThreadActivityBanners.tsx"
   },
   {
     "english": "Preparing fix",
@@ -196,6 +208,18 @@
     "file": "apps/web/src/components/chat/useComposerSend.ts"
   },
   {
+    "english": "Stashed machines can't go in an answer",
+    "file": "apps/web/src/components/chat/useComposerStash.ts"
+  },
+  {
+    "english": "Restore this prompt after the agent's question is answered.",
+    "file": "apps/web/src/components/chat/useComposerStash.ts"
+  },
+  {
+    "english": "Stash again once it finishes compressing.",
+    "file": "apps/web/src/components/chat/useComposerStash.ts"
+  },
+  {
     "english": "Could not switch machine",
     "file": "apps/web/src/components/chat/useDraftEnvironmentRouting.ts"
   },
@@ -230,6 +254,14 @@
   {
     "english": "Could not connect the T3 Connect environment.",
     "file": "apps/web/src/components/cloud/CloudEnvironmentConnectList.tsx"
+  },
+  {
+    "english": "Require approval for new devices",
+    "file": "apps/web/src/components/settings/settingsSearch.ts"
+  },
+  {
+    "english": "Devices that sign in to your T3 Connect account wait until someone already connected here approves them.",
+    "file": "apps/web/src/components/settings/SavedEnvironmentRows.tsx"
   },
   {
     "english": "SSH verification prompt failed.",
@@ -356,6 +388,10 @@
     "file": "apps/web/src/components/settings/CodexSetupSection.tsx"
   },
   {
+    "english": "T3 Connect devices",
+    "file": "apps/web/src/components/settings/ConnectDeviceApprovalSettings.tsx"
+  },
+  {
     "english": "Failed to update network exposure.",
     "file": "apps/web/src/components/settings/ConnectionsSettings.tsx"
   },
@@ -390,6 +426,10 @@
   {
     "english": "Unable to open logs folder.",
     "file": "apps/web/src/components/settings/DiagnosticsSettings.tsx"
+  },
+  {
+    "english": "Expo project",
+    "file": "apps/web/src/components/settings/EasDeviceHostEditor.tsx"
   },
   {
     "english": "Profiles separate cookies and logins. Incognito data is cleared when the app closes.",
@@ -556,6 +596,10 @@
     "file": "apps/web/src/components/settings/SourceControlWritingSettings.tsx"
   },
   {
+    "english": "Custom CSS",
+    "file": "apps/web/src/components/settings/ThemeCssEditor.tsx"
+  },
+  {
     "english": "not a theme file",
     "file": "apps/web/src/components/settings/ThemeImportDialog.tsx"
   },
@@ -638,6 +682,14 @@
   {
     "english": "The phrase you say to fix a mistake, like “scratch that”.",
     "file": "apps/web/src/components/settings/VoiceSettingsPanel.tsx"
+  },
+  {
+    "english": "Expo Simulators",
+    "file": "apps/web/src/components/settings/easDeviceHostsSettings.logic.ts"
+  },
+  {
+    "english": "Pick a time.",
+    "file": "apps/web/src/components/settings/scheduledTasksSettings.logic.ts"
   },
   {
     "english": "an environment",
