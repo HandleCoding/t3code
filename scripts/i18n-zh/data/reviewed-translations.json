@@ -43278,5 +43278,21 @@
     "decision": "translate",
     "recommended": "Office 预览引擎已关闭",
     "reason": "文档预览引擎状态提示"
+  },
+  {
+    "id": 5411,
+    "english": "Download file",
+    "current": "",
+    "decision": "translate",
+    "recommended": "下载文件",
+    "reason": "文件浏览器下载操作"
+  },
+  {
+    "id": 5412,
+    "english": "Could not download file",
+    "current": "",
+    "decision": "translate",
+    "recommended": "无法下载文件",
+    "reason": "文件浏览器下载操作"
   }
 ]

@@ -40,12 +40,24 @@
     "file": "apps/web/src/components/CommandPalette.tsx"
   },
   {
+    "english": "Open issues",
+    "file": "apps/web/src/components/CommandPalette.tsx"
+  },
+  {
     "english": "Choose a folder in the environment the repository is cloned into.",
     "file": "apps/web/src/components/CommandPalette.tsx"
   },
   {
     "english": "Replay failed",
     "file": "apps/web/src/components/DevReplayHost.tsx"
+  },
+  {
+    "english": "Provider status unavailable. Open Settings -> Source control & issues and rescan.",
+    "file": "apps/web/src/components/GitActionsControl.tsx"
+  },
+  {
+    "english": "Include all files",
+    "file": "apps/web/src/components/GitActionsControl.tsx"
   },
   {
     "english": "Failed to import action.",
@@ -64,8 +76,28 @@
     "file": "apps/web/src/components/ProviderUpdatesAction.tsx"
   },
   {
+    "english": "Local storage is unavailable or full. Try again after freeing space or allowing storage.",
+    "file": "apps/web/src/components/SavedViewsMenu.tsx"
+  },
+  {
+    "english": "This saved view was removed",
+    "file": "apps/web/src/components/SavedViewsMenu.tsx"
+  },
+  {
+    "english": "Your name has been kept. Save it as a new view or cancel.",
+    "file": "apps/web/src/components/SavedViewsMenu.tsx"
+  },
+  {
+    "english": "Modified view",
+    "file": "apps/web/src/components/SavedViewsMenu.tsx"
+  },
+  {
     "english": "Server update failed.",
     "file": "apps/web/src/components/ServerUpdateAction.tsx"
+  },
+  {
+    "english": "Failed to close interrupted paste",
+    "file": "apps/web/src/components/ThreadTerminalDrawer.tsx"
   },
   {
     "english": "Unable to open path",
@@ -148,6 +180,18 @@
     "file": "apps/web/src/components/chat/MermaidDiagram.tsx"
   },
   {
+    "english": "Could not send queued message",
+    "file": "apps/web/src/components/chat/QueuedRunsControl.tsx"
+  },
+  {
+    "english": "Issues unavailable",
+    "file": "apps/web/src/components/issue/IssuesPage.tsx"
+  },
+  {
+    "english": "Copy snapshot",
+    "file": "apps/web/src/components/chat/SnapShotAttachmentDetails.tsx"
+  },
+  {
     "english": "Goal objective",
     "file": "apps/web/src/components/chat/ThreadActivityBanners.tsx"
   },
@@ -204,7 +248,11 @@
     "file": "apps/web/src/components/chat/useComposerSend.ts"
   },
   {
-    "english": "Your new draft was kept. Copy the failed message to send it again.",
+    "english": "Queued message not updated",
+    "file": "apps/web/src/components/chat/useComposerSend.ts"
+  },
+  {
+    "english": "A queued message can't move to a side chat. Remove /side or /btw to save it.",
     "file": "apps/web/src/components/chat/useComposerSend.ts"
   },
   {
@@ -288,14 +336,6 @@
     "file": "apps/web/src/components/files/AttachmentFilePreview.tsx"
   },
   {
-    "english": "Download file",
-    "file": "apps/web/src/components/files/FileBrowserPanel.tsx"
-  },
-  {
-    "english": "Could not download file",
-    "file": "apps/web/src/components/files/FileBrowserPanel.tsx"
-  },
-  {
     "english": "File contents",
     "file": "apps/web/src/components/files/FilePreviewPanel.tsx"
   },
@@ -332,6 +372,106 @@
     "file": "apps/web/src/components/files/useDirectoryEntries.ts"
   },
   {
+    "english": "The comment could not be posted",
+    "file": "apps/web/src/components/issue/IssueCommentComposer.tsx"
+  },
+  {
+    "english": "Add a comment",
+    "file": "apps/web/src/components/issue/IssueCommentComposer.tsx"
+  },
+  {
+    "english": "Loading issue",
+    "file": "apps/web/src/components/issue/IssueDetailGhost.tsx"
+  },
+  {
+    "english": "Could not change labels",
+    "file": "apps/web/src/components/issue/IssueDetailPanel.tsx"
+  },
+  {
+    "english": "Could not change assignees",
+    "file": "apps/web/src/components/issue/IssueDetailPanel.tsx"
+  },
+  {
+    "english": "Change assignees",
+    "file": "apps/web/src/components/issue/IssueDetailPanel.tsx"
+  },
+  {
+    "english": "Assigned",
+    "file": "apps/web/src/components/issue/IssueDetailPanel.tsx"
+  },
+  {
+    "english": "Could not load this issue",
+    "file": "apps/web/src/components/issue/IssueDetailPanel.tsx"
+  },
+  {
+    "english": "Older comments could not be read",
+    "file": "apps/web/src/components/issue/IssueDetailPanel.tsx"
+  },
+  {
+    "english": "The issue could not be updated",
+    "file": "apps/web/src/components/issue/IssueDetailPanel.tsx"
+  },
+  {
+    "english": "The state could not be changed",
+    "file": "apps/web/src/components/issue/IssueDetailPanel.tsx"
+  },
+  {
+    "english": "Refresh issue",
+    "file": "apps/web/src/components/issue/IssueDetailPanel.tsx"
+  },
+  {
+    "english": "Issue title",
+    "file": "apps/web/src/components/issue/IssueDetailPanel.tsx"
+  },
+  {
+    "english": "Assignees",
+    "file": "apps/web/src/components/issue/IssueDetailPanel.tsx"
+  },
+  {
+    "english": "Search people",
+    "file": "apps/web/src/components/issue/IssueListFilterPickers.tsx"
+  },
+  {
+    "english": "Everyone",
+    "file": "apps/web/src/components/issue/IssuesPage.tsx"
+  },
+  {
+    "english": "Assigned to me",
+    "file": "apps/web/src/components/issue/IssuesPage.tsx"
+  },
+  {
+    "english": "Opened by me",
+    "file": "apps/web/src/components/issue/IssuesPage.tsx"
+  },
+  {
+    "english": "Mentioning me",
+    "file": "apps/web/src/components/issue/IssuesPage.tsx"
+  },
+  {
+    "english": "The next page failed.",
+    "file": "apps/web/src/components/issue/IssuesPage.tsx"
+  },
+  {
+    "english": "Search issues",
+    "file": "apps/web/src/components/issue/IssuesPage.tsx"
+  },
+  {
+    "english": "Sort issues",
+    "file": "apps/web/src/components/issue/IssuesPage.tsx"
+  },
+  {
+    "english": "Filter by tracker",
+    "file": "apps/web/src/components/issue/IssuesPage.tsx"
+  },
+  {
+    "english": "Refresh issues",
+    "file": "apps/web/src/components/issue/IssuesPage.tsx"
+  },
+  {
+    "english": "Issues Assigned to Me",
+    "file": "apps/web/src/components/issue/issueSavedViews.ts"
+  },
+  {
     "english": "Find in page",
     "file": "apps/web/src/components/preview/PreviewFindBar.tsx"
   },
@@ -362,6 +502,10 @@
   {
     "english": "Could not load pull requests",
     "file": "apps/web/src/components/pullRequest/PullRequestsUnavailableState.tsx"
+  },
+  {
+    "english": "PRs Requesting My Review",
+    "file": "apps/web/src/components/pullRequest/pullRequestSavedViews.ts"
   },
   {
     "english": "The ACP could not be prepared.",
@@ -436,6 +580,14 @@
     "file": "apps/web/src/components/settings/IntegrationsSettings.tsx"
   },
   {
+    "english": "Issue trackers",
+    "file": "apps/web/src/components/settings/settingsSearch.ts"
+  },
+  {
+    "english": "Could not load issue trackers",
+    "file": "apps/web/src/components/settings/IssueTrackerSettings.tsx"
+  },
+  {
     "english": "Couldn't change this setting.",
     "file": "apps/web/src/components/settings/LocalEnvironmentSetting.tsx"
   },
@@ -482,6 +634,10 @@
   {
     "english": "CPU speed limit",
     "file": "apps/web/src/components/settings/ResourceTelemetryDiagnostics.tsx"
+  },
+  {
+    "english": "terminal close confirmation",
+    "file": "apps/web/src/components/settings/SettingsPanels.tsx"
   },
   {
     "english": "language",
@@ -652,6 +808,10 @@
     "file": "apps/web/src/components/settings/VoiceSettingsPanel.tsx"
   },
   {
+    "english": "Streaming transcription",
+    "file": "apps/web/src/components/settings/settingsSearch.ts"
+  },
+  {
     "english": "Path to a model file or folder already on this environment",
     "file": "apps/web/src/components/settings/VoiceSettingsPanel.tsx"
   },
@@ -698,6 +858,10 @@
   {
     "english": "Could not start shortcut recording.",
     "file": "apps/web/src/components/settings/useSnapShotShortcutRecorder.tsx"
+  },
+  {
+    "english": "Issues",
+    "file": "apps/web/src/components/sidebar/SidebarChrome.tsx"
   },
   {
     "english": "Dropping folders needs the desktop app",
@@ -766,5 +930,13 @@
   {
     "english": "The environment request failed.",
     "file": "apps/web/src/state/query.ts"
+  },
+  {
+    "english": "theme background",
+    "file": "apps/web/src/themeBackground.ts"
+  },
+  {
+    "english": "Unable to drag file",
+    "file": "apps/web/src/useNativeFileDrag.ts"
   }
 ]

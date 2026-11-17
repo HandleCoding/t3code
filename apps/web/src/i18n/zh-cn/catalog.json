@@ -3688,8 +3688,6 @@
   "Wait for the file to finish loading before copying.": "请等待文件加载完成后再复制。",
   "Preparing file…": "正在准备文件…",
   "Save file": "保存文件",
-  "Download file": "下载文件",
-  "Could not download file": "无法下载文件",
   "Remove from draft": "从草稿中移除",
   "Preview limited to the first 1 MB": "预览仅限前 1 MB 内容",
   ". Save the file to read it in full.": "。请保存文件以查看完整内容。",
@@ -4393,5 +4391,7 @@
   "The Office engine sent an unreadable reply": "Office 预览引擎返回了无法解析的响应",
   "The call was aborted": "调用已中止",
   "This document took too long to preview. Open it in another app.": "此文档预览耗时过长，请在其他应用中打开。",
-  "The Office engine was closed": "Office 预览引擎已关闭"
+  "The Office engine was closed": "Office 预览引擎已关闭",
+  "Download file": "下载文件",
+  "Could not download file": "无法下载文件"
 }
