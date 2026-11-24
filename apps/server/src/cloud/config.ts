@@ -40,8 +40,8 @@ export const decodeConfirmedOrigin = Schema.decodeUnknownOption(
   Schema.fromJsonString(ManagedEndpointConfirmedOrigin),
 );
 
-export function isAgentActivityPublishingEnabledValue(value: string | null): boolean {
-  return value === "true";
+export function isAgentActivityPublishingEnabledValue(_value: string | null): boolean {
+  return false;
 }
 
 /**

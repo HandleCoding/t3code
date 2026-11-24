@@ -91,6 +91,7 @@ import {
   RELAY_ENVIRONMENT_CREDENTIAL_SECRET,
   RELAY_ISSUER_SECRET,
   RELAY_URL_SECRET,
+  isAgentActivityPublishingEnabledValue,
 } from "./config.ts";
 import { EnvironmentSigningKey } from "./environmentKeys.ts";
 import * as ConnectReachability from "./ConnectReachability.ts";
@@ -1333,9 +1334,9 @@ const make = Effect.gen(function* () {
       relayUrl: Option.isSome(relayUrl) ? bytesToString(relayUrl.value) : null,
       relayIssuer: Option.isSome(relayIssuer) ? bytesToString(relayIssuer.value) : null,
       managedTunnelActive: Option.isSome(endpointRuntimeConfig),
-      publishAgentActivity: Option.isSome(publishAgentActivity)
-        ? bytesToString(publishAgentActivity.value) === "true"
-        : false,
+      publishAgentActivity: isAgentActivityPublishingEnabledValue(
+        Option.isSome(publishAgentActivity) ? bytesToString(publishAgentActivity.value) : null,
+      ),
       holdWebhooksWhileOffline:
         Option.isSome(holdWebhooks) && bytesToString(holdWebhooks.value) === "true",
       ...(Option.isSome(currentReachability) ? { reachability: currentReachability.value } : {}),
